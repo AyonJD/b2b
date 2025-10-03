@@ -35,15 +35,15 @@ export default function StockRecords() {
   const totalClosing = data.reduce((sum, item) => sum + item.closing, 0)
 
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="mb-8 flex items-center justify-between">
+    <div className="min-h-[100svh] bg-background p-4 sm:p-6 lg:p-8">
+      <div className="mb-8 grid gap-4 md:flex md:items-center md:justify-between">
         <div>
-          <h1 className="text-4xl font-bold text-foreground">Stock Records</h1>
-          <p className="mt-2 text-lg text-muted-foreground">Monthly inventory movement records</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Stock Records</h1>
+          <p className="mt-2 text-base sm:text-lg text-muted-foreground">Monthly inventory movement records</p>
         </div>
-        <div className="w-64">
+        <div className="w-full md:w-64">
           <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -101,19 +101,19 @@ export default function StockRecords() {
 
       <Card className="border-border bg-card">
         <CardHeader>
-          <CardTitle className="text-2xl text-foreground">Detailed Stock Movement</CardTitle>
+          <CardTitle className="text-xl sm:text-2xl text-foreground">Detailed Stock Movement</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto pb-2" style={{ scrollbarGutter: 'stable both-edges' }}>
+            <table className="w-full min-w-[720px] sm:min-w-0">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="pb-3 text-left text-sm font-semibold text-muted-foreground">Product Name</th>
-                  <th className="pb-3 text-center text-sm font-semibold text-muted-foreground">Opening Stock</th>
-                  <th className="pb-3 text-center text-sm font-semibold text-muted-foreground">Received</th>
-                  <th className="pb-3 text-center text-sm font-semibold text-muted-foreground">Sold</th>
-                  <th className="pb-3 text-center text-sm font-semibold text-muted-foreground">Closing Stock</th>
-                  <th className="pb-3 text-right text-sm font-semibold text-muted-foreground">Change</th>
+                  <th className="pb-3 pr-3 text-left text-xs sm:text-sm font-semibold text-muted-foreground">Product Name</th>
+                  <th className="pb-3 pr-3 text-center text-xs sm:text-sm font-semibold text-muted-foreground">Opening Stock</th>
+                  <th className="pb-3 pr-3 text-center text-xs sm:text-sm font-semibold text-muted-foreground">Received</th>
+                  <th className="pb-3 pr-3 text-center text-xs sm:text-sm font-semibold text-muted-foreground">Sold</th>
+                  <th className="pb-3 pr-3 text-center text-xs sm:text-sm font-semibold text-muted-foreground">Closing Stock</th>
+                  <th className="pb-3 text-right text-xs sm:text-sm font-semibold text-muted-foreground">Change</th>
                 </tr>
               </thead>
               <tbody>
@@ -122,16 +122,16 @@ export default function StockRecords() {
                   const changePercent = ((change / item.opening) * 100).toFixed(1)
                   return (
                     <tr key={item.id} className="border-b border-border">
-                      <td className="py-4 font-semibold text-foreground">{item.name}</td>
-                      <td className="py-4 text-center text-muted-foreground">{item.opening}</td>
-                      <td className="py-4 text-center font-semibold text-[hsl(var(--color-accent-green))]">
+                      <td className="py-3 pr-3 font-semibold text-foreground whitespace-nowrap text-sm">{item.name}</td>
+                      <td className="py-3 pr-3 text-center text-muted-foreground text-sm">{item.opening}</td>
+                      <td className="py-3 pr-3 text-center font-semibold text-[hsl(var(--color-accent-green))] text-sm">
                         +{item.received}
                       </td>
-                      <td className="py-4 text-center font-semibold text-[hsl(var(--color-accent-red))]">
+                      <td className="py-3 pr-3 text-center font-semibold text-[hsl(var(--color-accent-red))] text-sm">
                         -{item.sold}
                       </td>
-                      <td className="py-4 text-center text-lg font-bold text-foreground">{item.closing}</td>
-                      <td className="py-4 text-right">
+                      <td className="py-3 pr-3 text-center text-base sm:text-lg font-bold text-foreground">{item.closing}</td>
+                      <td className="py-3 text-right">
                         <span
                           className={`font-semibold ${change >= 0 ? "text-[hsl(var(--color-accent-green))]" : "text-[hsl(var(--color-accent-red))]"}`}
                         >

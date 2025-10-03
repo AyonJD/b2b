@@ -48,15 +48,15 @@ const navigation = [
   },
 ]
 
-export function AppSidebar() {
+export function AppSidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
   const pathname = usePathname()
 
   return (
     <div className="flex h-screen w-64 flex-col border-r border-border bg-card">
       <div className="flex h-16 items-center border-b border-border px-6">
         <div className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--color-accent-cyan))] to-[hsl(var(--color-primary))]">
-            <TrendingUp className="h-6 w-6 text-white" />
+          <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-primary to-[hsl(var(--color-accent-purple))]">
+            <img src="/placeholder-logo.svg" alt="Logo" className="h-5 w-5" />
           </div>
           <div>
             <h1 className="text-lg font-bold text-foreground">BizManager</h1>
@@ -84,6 +84,9 @@ export function AppSidebar() {
                         ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground",
                     )}
+                    onClick={() => {
+                      if (onNavigate) onNavigate()
+                    }}
                   >
                     <item.icon className="h-5 w-5" />
                     {item.name}

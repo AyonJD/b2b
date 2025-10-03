@@ -161,28 +161,22 @@ export default function NotificationsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="mb-8 flex items-center justify-between">
+    <div className="min-h-[100svh] bg-background p-4 sm:p-6 lg:p-8">
+      <div className="mb-8 grid gap-4 md:flex md:items-center md:justify-between">
         <div>
-          <h1 className="text-4xl font-bold text-foreground">Notifications</h1>
-          <p className="mt-2 text-lg text-muted-foreground">
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Notifications</h1>
+          <p className="mt-2 text-base sm:text-lg text-muted-foreground">
             System activities and important updates
             {unreadCount > 0 && (
               <span className="ml-2 text-[hsl(var(--color-accent-orange))]">({unreadCount} unread)</span>
             )}
           </p>
         </div>
-        <div className="flex gap-3">
-          <Button variant={filter === "all" ? "default" : "outline"} onClick={() => setFilter("all")}>
-            All
-          </Button>
-          <Button variant={filter === "unread" ? "default" : "outline"} onClick={() => setFilter("unread")}>
-            Unread ({unreadCount})
-          </Button>
+        <div className="flex flex-wrap gap-2 sm:gap-3">
+          <Button variant={filter === "all" ? "default" : "outline"} onClick={() => setFilter("all")}>All</Button>
+          <Button variant={filter === "unread" ? "default" : "outline"} onClick={() => setFilter("unread")}>Unread ({unreadCount})</Button>
           {unreadCount > 0 && (
-            <Button variant="outline" onClick={markAllAsRead}>
-              Mark All Read
-            </Button>
+            <Button variant="outline" onClick={markAllAsRead}>Mark All Read</Button>
           )}
         </div>
       </div>
@@ -204,8 +198,8 @@ export default function NotificationsPage() {
                 !notification.read && "border-l-4 border-l-primary",
               )}
             >
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex items-start gap-3 sm:gap-4">
                   <div
                     className={cn(
                       "flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg",
@@ -216,18 +210,18 @@ export default function NotificationsPage() {
                   </div>
 
                   <div className="flex-1">
-                    <div className="mb-2 flex items-start justify-between gap-4">
+                    <div className="mb-2 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                       <div className="flex-1">
-                        <div className="mb-2 flex items-center gap-2">
+                        <div className="mb-2 flex flex-wrap items-center gap-2">
                           <Badge className={getTypeColor(notification.type)}>{notification.category}</Badge>
                           {!notification.read && <Badge className="bg-primary text-primary-foreground">New</Badge>}
                         </div>
-                        <h3 className="text-xl font-semibold text-foreground">{notification.title}</h3>
-                        <p className="mt-1 text-muted-foreground">{notification.message}</p>
-                        <p className="mt-2 text-sm text-muted-foreground">{notification.time}</p>
+                        <h3 className="text-lg sm:text-xl font-semibold text-foreground">{notification.title}</h3>
+                        <p className="mt-1 text-sm sm:text-base text-muted-foreground">{notification.message}</p>
+                        <p className="mt-2 text-xs sm:text-sm text-muted-foreground">{notification.time}</p>
                       </div>
 
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 sm:self-start">
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button
@@ -239,9 +233,9 @@ export default function NotificationsPage() {
                               Details
                             </Button>
                           </DialogTrigger>
-                          <DialogContent>
+                          <DialogContent className="max-w-[min(100vw-2rem,42rem)]">
                             <DialogHeader>
-                              <DialogTitle className="flex items-center gap-2 text-2xl">
+                              <DialogTitle className="flex items-center gap-2 text-xl sm:text-2xl">
                                 <notification.icon className="h-6 w-6" />
                                 {notification.title}
                               </DialogTitle>
@@ -253,7 +247,7 @@ export default function NotificationsPage() {
                               <div className="rounded-lg bg-secondary p-4">
                                 <p className="text-foreground">{notification.details}</p>
                               </div>
-                              <div className="flex justify-between text-sm text-muted-foreground">
+                              <div className="flex justify-between text-xs sm:text-sm text-muted-foreground">
                                 <span>Time: {notification.time}</span>
                                 <span>Status: {notification.read ? "Read" : "Unread"}</span>
                               </div>

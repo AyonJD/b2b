@@ -38,15 +38,15 @@ export default function AccountsRecords() {
   const data = monthlyAccountData[selectedMonth as keyof typeof monthlyAccountData]
 
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="mb-8 flex items-center justify-between">
+    <div className="min-h-[100svh] bg-background p-4 sm:p-6 lg:p-8">
+      <div className="mb-8 grid gap-4 md:flex md:items-center md:justify-between">
         <div>
-          <h1 className="text-4xl font-bold text-foreground">Accounts Records</h1>
-          <p className="mt-2 text-lg text-muted-foreground">Monthly financial summary and analysis</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Accounts Records</h1>
+          <p className="mt-2 text-base sm:text-lg text-muted-foreground">Monthly financial summary and analysis</p>
         </div>
-        <div className="w-64">
+        <div className="w-full md:w-64">
           <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -118,34 +118,38 @@ export default function AccountsRecords() {
 
       <Card className="mb-8 border-border bg-card">
         <CardHeader>
-          <CardTitle className="text-2xl text-foreground">Financial Comparison</CardTitle>
+          <CardTitle className="text-xl sm:text-2xl text-foreground">Financial Comparison</CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
-              <YAxis stroke="hsl(var(--muted-foreground))" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "8px",
-                }}
-              />
-              <Legend />
-              <Bar dataKey="revenue" fill="hsl(var(--color-accent-green))" radius={[8, 8, 0, 0]} name="Revenue" />
-              <Bar dataKey="expenditure" fill="hsl(var(--color-accent-red))" radius={[8, 8, 0, 0]} name="Expenditure" />
-              <Bar dataKey="profit" fill="hsl(var(--color-accent-cyan))" radius={[8, 8, 0, 0]} name="Profit" />
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="w-full overflow-x-auto pb-2" style={{ scrollbarGutter: 'stable both-edges' }}>
+            <div className="min-w-[560px] sm:min-w-0">
+              <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
+                  <YAxis stroke="hsl(var(--muted-foreground))" />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "hsl(var(--card))",
+                      border: "1px solid hsl(var(--border))",
+                      borderRadius: "8px",
+                    }}
+                  />
+                  <Legend />
+                  <Bar dataKey="revenue" fill="hsl(var(--color-accent-green))" radius={[8, 8, 0, 0]} name="Revenue" />
+                  <Bar dataKey="expenditure" fill="hsl(var(--color-accent-red))" radius={[8, 8, 0, 0]} name="Expenditure" />
+                  <Bar dataKey="profit" fill="hsl(var(--color-accent-cyan))" radius={[8, 8, 0, 0]} name="Profit" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="border-border bg-card">
           <CardHeader>
-            <CardTitle className="text-2xl text-foreground">Revenue Breakdown</CardTitle>
+            <CardTitle className="text-xl sm:text-2xl text-foreground">Revenue Breakdown</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -175,7 +179,7 @@ export default function AccountsRecords() {
 
         <Card className="border-border bg-card">
           <CardHeader>
-            <CardTitle className="text-2xl text-foreground">Expenditure Breakdown</CardTitle>
+            <CardTitle className="text-xl sm:text-2xl text-foreground">Expenditure Breakdown</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">

@@ -159,7 +159,7 @@ export default function SalesDashboard() {
             <CardTitle className="text-2xl text-foreground">Monthly Sales Trend</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="w-full overflow-x-auto">
+            <div className="w-full overflow-x-auto pb-2" style={{ scrollbarGutter: "stable both-edges" }}>
               <div className="min-w-[560px] sm:min-w-0">
                 <ResponsiveContainer width="100%" height={300}>
                   <AreaChart data={salesData}>
@@ -199,7 +199,7 @@ export default function SalesDashboard() {
             <CardTitle className="text-2xl text-foreground">Sales by Category</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="w-full overflow-x-auto">
+            <div className="w-full overflow-x-auto pb-2" style={{ scrollbarGutter: "stable both-edges" }}>
               <div className="min-w-[560px] sm:min-w-0">
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
@@ -242,7 +242,7 @@ export default function SalesDashboard() {
             <CardTitle className="text-2xl text-foreground">Weekly Sales Performance</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="w-full overflow-x-auto">
+            <div className="w-full overflow-x-auto pb-2" style={{ scrollbarGutter: "stable both-edges" }}>
               <div className="min-w-[560px] sm:min-w-0">
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={dailySalesData}>
@@ -269,7 +269,7 @@ export default function SalesDashboard() {
             <CardTitle className="text-2xl text-foreground">Order Volume Trend</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="w-full overflow-x-auto">
+            <div className="w-full overflow-x-auto pb-2" style={{ scrollbarGutter: "stable both-edges" }}>
               <div className="min-w-[560px] sm:min-w-0">
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={salesData}>

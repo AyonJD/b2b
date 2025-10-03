@@ -140,15 +140,15 @@ export default function SalesRecords() {
   )
 
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="mb-8 flex items-center justify-between">
+    <div className="min-h-[100svh] bg-background p-4 sm:p-6 lg:p-8">
+      <div className="mb-8 grid gap-4 md:flex md:items-center md:justify-between">
         <div>
-          <h1 className="text-4xl font-bold text-foreground">View Sales Records</h1>
-          <p className="mt-2 text-lg text-muted-foreground">Monthly sales summary and detailed records</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-foreground">View Sales Records</h1>
+          <p className="mt-2 text-base sm:text-lg text-muted-foreground">Monthly sales summary and detailed records</p>
         </div>
-        <div className="w-64">
+        <div className="w-full md:w-64">
           <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-            <SelectTrigger>
+            <SelectTrigger className="w-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -206,9 +206,9 @@ export default function SalesRecords() {
 
       <Card className="border-border bg-card">
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-2xl text-foreground">Sales List</CardTitle>
-            <div className="relative w-80">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <CardTitle className="text-xl sm:text-2xl text-foreground">Sales List</CardTitle>
+            <div className="relative w-full sm:w-80">
               <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder="Search by invoice, customer, or items..."
@@ -220,29 +220,29 @@ export default function SalesRecords() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto pb-2" style={{ scrollbarGutter: 'stable both-edges' }}>
+            <table className="w-full min-w-[720px] sm:min-w-0">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="pb-3 text-left text-sm font-semibold text-muted-foreground">Invoice ID</th>
-                  <th className="pb-3 text-left text-sm font-semibold text-muted-foreground">Date</th>
-                  <th className="pb-3 text-left text-sm font-semibold text-muted-foreground">Customer</th>
-                  <th className="pb-3 text-left text-sm font-semibold text-muted-foreground">Item Names</th>
-                  <th className="pb-3 text-left text-sm font-semibold text-muted-foreground">Items</th>
-                  <th className="pb-3 text-right text-sm font-semibold text-muted-foreground">Amount</th>
+                  <th className="pb-3 pr-3 text-left text-xs sm:text-sm font-semibold text-muted-foreground">Invoice ID</th>
+                  <th className="pb-3 pr-3 text-left text-xs sm:text-sm font-semibold text-muted-foreground">Date</th>
+                  <th className="pb-3 pr-3 text-left text-xs sm:text-sm font-semibold text-muted-foreground">Customer</th>
+                  <th className="pb-3 pr-3 text-left text-xs sm:text-sm font-semibold text-muted-foreground">Item Names</th>
+                  <th className="pb-3 pr-3 text-left text-xs sm:text-sm font-semibold text-muted-foreground">Items</th>
+                  <th className="pb-3 text-right text-xs sm:text-sm font-semibold text-muted-foreground">Amount</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredSales.map((sale) => (
                   <tr key={sale.id} className="border-b border-border">
-                    <td className="py-4 text-foreground">{sale.id}</td>
-                    <td className="py-4 text-muted-foreground">{sale.date}</td>
-                    <td className="py-4 text-foreground">{sale.customer}</td>
-                    <td className="py-4 text-muted-foreground max-w-xs truncate" title={sale.items}>
+                    <td className="py-3 pr-3 text-foreground whitespace-nowrap text-sm">{sale.id}</td>
+                    <td className="py-3 pr-3 text-muted-foreground whitespace-nowrap text-sm">{sale.date}</td>
+                    <td className="py-3 pr-3 text-foreground whitespace-nowrap text-sm">{sale.customer}</td>
+                    <td className="py-3 pr-3 text-muted-foreground max-w-[16rem] truncate" title={sale.items}>
                       {sale.items}
                     </td>
-                    <td className="py-4 text-muted-foreground">{sale.itemCount}</td>
-                    <td className="py-4 text-right text-lg font-semibold text-foreground">${sale.amount}</td>
+                    <td className="py-3 pr-3 text-muted-foreground text-sm">{sale.itemCount}</td>
+                    <td className="py-3 text-right text-base sm:text-lg font-semibold text-foreground">${sale.amount}</td>
                   </tr>
                 ))}
               </tbody>

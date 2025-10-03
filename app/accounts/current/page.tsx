@@ -28,10 +28,10 @@ const revenues = [
 
 export default function CurrentAccounts() {
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-[100svh] bg-background p-4 sm:p-6 lg:p-8">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-foreground">Current Accounts</h1>
-        <p className="mt-2 text-lg text-muted-foreground">Financial overview and current transactions</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Current Accounts</h1>
+        <p className="mt-2 text-base sm:text-lg text-muted-foreground">Financial overview and current transactions</p>
       </div>
 
       <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -103,7 +103,7 @@ export default function CurrentAccounts() {
       <div className="grid gap-6 lg:grid-cols-2">
         <Card className="border-border bg-card">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl text-foreground">
+            <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl text-foreground">
               <TrendingDown className="h-6 w-6 text-[hsl(var(--color-accent-red))]" />
               Current Expenditure List
             </CardTitle>
@@ -113,15 +113,15 @@ export default function CurrentAccounts() {
               {expenditures.map((expense) => (
                 <div
                   key={expense.id}
-                  className="flex items-center justify-between rounded-lg border border-border bg-secondary p-4"
+                  className="grid gap-3 rounded-lg border border-border bg-secondary p-4 sm:grid-cols-[1fr_auto] sm:items-start"
                 >
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-foreground">{expense.category}</h3>
-                    <p className="text-sm text-muted-foreground">{expense.vendor}</p>
+                  <div>
+                    <h3 className="text-sm sm:text-base font-semibold text-foreground">{expense.category}</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{expense.vendor}</p>
                     <p className="text-xs text-muted-foreground">{expense.date}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xl font-bold text-[hsl(var(--color-accent-red))]">
+                  <div className="text-left sm:text-right">
+                    <p className="text-base sm:text-xl font-bold text-[hsl(var(--color-accent-red))]">
                       -${expense.amount.toLocaleString()}
                     </p>
                   </div>
@@ -139,7 +139,7 @@ export default function CurrentAccounts() {
 
         <Card className="border-border bg-card">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl text-foreground">
+            <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl text-foreground">
               <TrendingUp className="h-6 w-6 text-[hsl(var(--color-accent-green))]" />
               Current Revenue List
             </CardTitle>
@@ -149,15 +149,15 @@ export default function CurrentAccounts() {
               {revenues.map((revenue) => (
                 <div
                   key={revenue.id}
-                  className="flex items-center justify-between rounded-lg border border-border bg-secondary p-4"
+                  className="grid gap-3 rounded-lg border border-border bg-secondary p-4 sm:grid-cols-[1fr_auto] sm:items-start"
                 >
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-foreground">{revenue.source}</h3>
-                    <p className="text-sm text-muted-foreground">{revenue.customer}</p>
+                  <div>
+                    <h3 className="text-sm sm:text-base font-semibold text-foreground">{revenue.source}</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground">{revenue.customer}</p>
                     <p className="text-xs text-muted-foreground">{revenue.date}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-xl font-bold text-[hsl(var(--color-accent-green))]">
+                  <div className="text-left sm:text-right">
+                    <p className="text-base sm:text-xl font-bold text-[hsl(var(--color-accent-green))]">
                       +${revenue.amount.toLocaleString()}
                     </p>
                   </div>

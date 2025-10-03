@@ -3,6 +3,9 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { useEffect, useMemo, useState } from "react"
+import { getFirebaseAuth } from "@/lib/firebase"
+import { onAuthStateChanged, type User } from "firebase/auth"
 import {
   LayoutDashboard,
   ShoppingCart,
@@ -50,6 +53,28 @@ const navigation = [
 
 export function AppSidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
   const pathname = usePathname()
+  const [authUser, setAuthUser] = useState<User | null>(null)
+
+  useEffect(() => {
+    const auth = getFirebaseAuth()
+    const unsub = onAuthStateChanged(auth, (u) => setAuthUser(u))
+    return () => unsub()
+  }, [])
+
+  const { displayName, email, initials } = useMemo(() => {
+    const name = authUser?.displayName || undefined
+    const mail = authUser?.email || ""
+    const base = name || mail.split("@")[0] || "User"
+    const init = name
+      ? name
+          .split(" ")
+          .filter(Boolean)
+          .slice(0, 2)
+          .map((s) => s[0]?.toUpperCase())
+          .join("")
+      : (mail[0] || "U").toUpperCase()
+    return { displayName: name || base, email: mail, initials: init || "U" }
+  }, [authUser])
 
   return (
     <div className="flex h-screen w-64 flex-col border-r border-border bg-card">
@@ -101,11 +126,11 @@ export function AppSidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
       <div className="border-t border-border p-4">
         <div className="flex items-center gap-3 rounded-lg bg-secondary p-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[hsl(var(--color-accent-orange))] to-[hsl(var(--color-accent-yellow))] text-sm font-bold text-white">
-            AD
+            {initials}
           </div>
-          <div className="flex-1">
-            <p className="text-sm font-medium text-foreground">Admin User</p>
-            <p className="text-xs text-muted-foreground">admin@bizmanager.com</p>
+          <div className="flex-1 min-w-0">
+            <p className="truncate text-sm font-medium text-foreground">{displayName}</p>
+            <p className="truncate text-xs text-muted-foreground">{email || "Signed out"}</p>
           </div>
         </div>
       </div>

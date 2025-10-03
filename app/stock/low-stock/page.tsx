@@ -41,20 +41,20 @@ export default function LowStockItems() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-[100svh] bg-background p-4 sm:p-6 lg:p-8">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-foreground">Low Stock Items</h1>
-        <p className="mt-2 text-lg text-muted-foreground">Items requiring immediate attention</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Low Stock Items</h1>
+        <p className="mt-2 text-base sm:text-lg text-muted-foreground">Items requiring immediate attention</p>
       </div>
 
-      <div className="mb-6 rounded-lg border border-[hsl(var(--color-accent-orange))] bg-[hsl(var(--color-accent-orange))]/10 p-6">
+      <div className="mb-6 rounded-lg border border-[hsl(var(--color-accent-orange))] bg-[hsl(var(--color-accent-orange))]/10 p-4 sm:p-6">
         <div className="flex items-start gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[hsl(var(--color-accent-orange))]">
             <AlertTriangle className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h3 className="text-xl font-bold text-foreground">Stock Alert</h3>
-            <p className="mt-1 text-muted-foreground">
+            <h3 className="text-lg sm:text-xl font-bold text-foreground">Stock Alert</h3>
+            <p className="mt-1 text-sm sm:text-base text-muted-foreground">
               {lowStockItems.length} items are running low on stock and need restocking
             </p>
           </div>
@@ -70,10 +70,10 @@ export default function LowStockItems() {
           return (
             <Card key={item.id} className="border-border bg-card">
               <CardHeader>
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <CardTitle className="text-xl text-foreground">{item.name}</CardTitle>
-                    <p className="mt-1 text-sm text-muted-foreground">{item.category}</p>
+                    <CardTitle className="text-lg sm:text-xl text-foreground">{item.name}</CardTitle>
+                    <p className="mt-1 text-xs sm:text-sm text-muted-foreground">{item.category}</p>
                   </div>
                   <div
                     className={`rounded-lg px-3 py-1 text-xs font-semibold ${
@@ -91,10 +91,10 @@ export default function LowStockItems() {
               <CardContent className="space-y-4">
                 <div className="space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Current Stock</span>
-                    <span className="text-lg font-bold text-foreground">{item.current} units</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground">Current Stock</span>
+                    <span className="text-base sm:text-lg font-bold text-foreground">{item.current} units</span>
                   </div>
-                  <div className="h-3 overflow-hidden rounded-full bg-secondary">
+                  <div className="h-2.5 sm:h-3 overflow-hidden rounded-full bg-secondary">
                     <div
                       className={`h-full rounded-full ${
                         urgency === "critical"
@@ -106,7 +106,7 @@ export default function LowStockItems() {
                       style={{ width: `${Math.min(stockPercentage, 100)}%` }}
                     />
                   </div>
-                  <div className="flex justify-between text-sm">
+                  <div className="flex justify-between text-xs sm:text-sm">
                     <span className="text-muted-foreground">Minimum: {item.minimum}</span>
                     <span className="text-muted-foreground">Recommended: {item.recommended}</span>
                   </div>
@@ -114,12 +114,12 @@ export default function LowStockItems() {
 
                 <div className="rounded-lg bg-secondary p-4">
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Suggested Order</span>
-                    <span className="text-lg font-bold text-foreground">{item.recommended - item.current} units</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground">Suggested Order</span>
+                    <span className="text-base sm:text-lg font-bold text-foreground">{item.recommended - item.current} units</span>
                   </div>
                   <div className="mt-2 flex justify-between">
-                    <span className="text-sm text-muted-foreground">Estimated Cost</span>
-                    <span className="text-lg font-bold text-foreground">
+                    <span className="text-xs sm:text-sm text-muted-foreground">Estimated Cost</span>
+                    <span className="text-base sm:text-lg font-bold text-foreground">
                       ${((item.recommended - item.current) * item.price).toLocaleString()}
                     </span>
                   </div>
@@ -132,9 +132,9 @@ export default function LowStockItems() {
                       Add Stock
                     </Button>
                   </DialogTrigger>
-                  <DialogContent>
+                  <DialogContent className="max-w-[min(100vw-2rem,32rem)]">
                     <DialogHeader>
-                      <DialogTitle className="text-2xl">Add Stock</DialogTitle>
+                      <DialogTitle className="text-xl sm:text-2xl">Add Stock</DialogTitle>
                       <DialogDescription>Increase inventory for {item.name}</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4">

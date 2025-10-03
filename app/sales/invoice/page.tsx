@@ -77,10 +77,10 @@ export default function InvoicePage() {
   )
 
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-[100svh] bg-background p-4 sm:p-6 lg:p-8">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-foreground">Invoice Management</h1>
-        <p className="mt-2 text-lg text-muted-foreground">View and manage client invoices</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Invoice Management</h1>
+        <p className="mt-2 text-base sm:text-lg text-muted-foreground">View and manage client invoices</p>
       </div>
 
       <Card className="mb-6 border-border bg-card">
@@ -91,7 +91,7 @@ export default function InvoicePage() {
               placeholder="Search clients by name or email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 text-lg"
+              className="pl-10 text-base sm:text-lg"
             />
           </div>
         </CardContent>
@@ -99,32 +99,32 @@ export default function InvoicePage() {
 
       <Card className="border-border bg-card">
         <CardHeader>
-          <CardTitle className="text-2xl text-foreground">Client List</CardTitle>
+          <CardTitle className="text-xl sm:text-2xl text-foreground">Client List</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full">
+          <div className="overflow-x-auto pb-2" style={{ scrollbarGutter: 'stable both-edges' }}>
+            <table className="w-full min-w-[720px] sm:min-w-0">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="pb-3 text-left text-sm font-semibold text-muted-foreground">Client Name</th>
-                  <th className="pb-3 text-left text-sm font-semibold text-muted-foreground">Email</th>
-                  <th className="pb-3 text-left text-sm font-semibold text-muted-foreground">Last Purchase</th>
-                  <th className="pb-3 text-left text-sm font-semibold text-muted-foreground">Total Spent</th>
-                  <th className="pb-3 text-left text-sm font-semibold text-muted-foreground">Invoices</th>
-                  <th className="pb-3 text-right text-sm font-semibold text-muted-foreground">Action</th>
+                  <th className="pb-3 pr-3 text-left text-xs sm:text-sm font-semibold text-muted-foreground">Client Name</th>
+                  <th className="pb-3 pr-3 text-left text-xs sm:text-sm font-semibold text-muted-foreground">Email</th>
+                  <th className="pb-3 pr-3 text-left text-xs sm:text-sm font-semibold text-muted-foreground">Last Purchase</th>
+                  <th className="pb-3 pr-3 text-left text-xs sm:text-sm font-semibold text-muted-foreground">Total Spent</th>
+                  <th className="pb-3 pr-3 text-left text-xs sm:text-sm font-semibold text-muted-foreground">Invoices</th>
+                  <th className="pb-3 text-right text-xs sm:text-sm font-semibold text-muted-foreground">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredClients.map((client) => (
                   <tr key={client.id} className="border-b border-border">
-                    <td className="py-4 font-semibold text-foreground">{client.name}</td>
-                    <td className="py-4 text-muted-foreground">{client.email}</td>
-                    <td className="py-4 text-muted-foreground">{client.lastPurchase}</td>
-                    <td className="py-4 text-lg font-semibold text-foreground">
+                    <td className="py-3 pr-3 font-semibold text-foreground whitespace-nowrap text-sm">{client.name}</td>
+                    <td className="py-3 pr-3 text-muted-foreground whitespace-nowrap text-sm">{client.email}</td>
+                    <td className="py-3 pr-3 text-muted-foreground whitespace-nowrap text-sm">{client.lastPurchase}</td>
+                    <td className="py-3 pr-3 text-base sm:text-lg font-semibold text-foreground whitespace-nowrap">
                       ${client.totalSpent.toLocaleString()}
                     </td>
-                    <td className="py-4 text-muted-foreground">{client.invoices}</td>
-                    <td className="py-4 text-right">
+                    <td className="py-3 pr-3 text-muted-foreground text-sm">{client.invoices}</td>
+                    <td className="py-3 text-right">
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button size="sm">
@@ -132,9 +132,9 @@ export default function InvoicePage() {
                             View Invoice
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-2xl">
+                        <DialogContent className="max-w-[min(100vw-2rem,42rem)]">
                           <DialogHeader>
-                            <DialogTitle className="text-2xl">Invoice Details</DialogTitle>
+                            <DialogTitle className="text-xl sm:text-2xl">Invoice Details</DialogTitle>
                             <DialogDescription>Invoice for {client.name}</DialogDescription>
                           </DialogHeader>
                           <div className="space-y-4">

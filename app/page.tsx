@@ -30,25 +30,25 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-background">
+    <div className="relative flex min-h-[100svh] w-full items-center justify-center overflow-hidden bg-background sm:h-screen">
       {/* aurora background */}
-      <div className="pointer-events-none absolute inset-0 [background:radial-gradient(60rem_30rem_at_50%_-10%,hsl(var(--primary)/.2),transparent_60%),radial-gradient(40rem_20rem_at_10%_110%,hsl(var(--color-accent-purple)/.18),transparent_60%),radial-gradient(40rem_28rem_at_90%_120%,hsl(var(--color-accent-cyan)/.15),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 [background:radial-gradient(30rem_15rem_at_50%_-10%,hsl(var(--primary)/.2),transparent_60%),radial-gradient(20rem_12rem_at_10%_110%,hsl(var(--color-accent-purple)/.18),transparent_60%),radial-gradient(24rem_16rem_at_90%_120%,hsl(var(--color-accent-cyan)/.15),transparent_60%)] sm:[background:radial-gradient(60rem_30rem_at_50%_-10%,hsl(var(--primary)/.2),transparent_60%),radial-gradient(40rem_20rem_at_10%_110%,hsl(var(--color-accent-purple)/.18),transparent_60%),radial-gradient(40rem_28rem_at_90%_120%,hsl(var(--color-accent-cyan)/.15),transparent_60%)]" />
 
       {/* logo orb */}
-      <div className="relative z-10 flex flex-col items-center gap-6">
+      <div className="relative z-10 flex flex-col items-center gap-4 sm:gap-6 px-4 text-center">
         <div className="relative">
-          <div className="size-28 rounded-full bg-gradient-to-br from-primary to-[hsl(var(--color-accent-purple))] blur-[1px] shadow-[0_0_40px_hsl(var(--primary)/.6)] animate-[spin_10s_linear_infinite]" />
+          <div className="size-20 sm:size-28 rounded-full bg-gradient-to-br from-primary to-[hsl(var(--color-accent-purple))] blur-[1px] shadow-[0_0_40px_hsl(var(--primary)/.6)] animate-[spin_10s_linear_infinite]" />
           <div className="absolute inset-0 grid place-items-center">
             <img
               src="/placeholder-logo.svg"
               alt="Logo"
-              className="size-12 drop-shadow-[0_2px_8px_hsl(var(--primary)/.6)] animate-[float_3s_ease-in-out_infinite]"
+              className="size-8 sm:size-12 drop-shadow-[0_2px_8px_hsl(var(--primary)/.6)] animate-[float_3s_ease-in-out_infinite]"
             />
           </div>
         </div>
 
         {/* wordmark reveal */}
-        <div className="flex items-end gap-1 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+        <div className="flex items-end gap-[2px] sm:gap-1 text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
           {letters.map((ch, i) => (
             <span
               key={i}
@@ -60,11 +60,11 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="text-sm text-muted-foreground">Modern business management</div>
+        <div className="text-xs sm:text-sm text-muted-foreground">Modern business management</div>
       </div>
 
       {/* progress sweep */}
-      <div className="absolute bottom-0 left-0 right-0 h-[3px] overflow-hidden">
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] sm:h-[3px] overflow-hidden">
         <div className="h-full w-full origin-left bg-gradient-to-r from-primary via-[hsl(var(--color-accent-cyan))] to-[hsl(var(--color-accent-purple))] animate-[sweep_1.2s_ease-out_forwards]" />
       </div>
 

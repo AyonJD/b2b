@@ -154,13 +154,15 @@ export default function SalesDashboard() {
       </div>
 
       <div className="mb-8 grid gap-6 lg:grid-cols-2">
-        <Card className="border-border bg-card">
+        <Card className="border-border bg-card overflow-hidden">
           <CardHeader>
             <CardTitle className="text-2xl text-foreground">Monthly Sales Trend</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={salesData}>
+            <div className="w-full overflow-x-auto">
+              <div className="min-w-[560px] sm:min-w-0">
+                <ResponsiveContainer width="100%" height={300}>
+                  <AreaChart data={salesData}>
                 <defs>
                   <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="hsl(var(--color-accent-cyan))" stopOpacity={0.8} />
@@ -185,18 +187,22 @@ export default function SalesDashboard() {
                   fillOpacity={1}
                   fill="url(#colorSales)"
                 />
-              </AreaChart>
-            </ResponsiveContainer>
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="border-border bg-card">
+        <Card className="border-border bg-card overflow-hidden">
           <CardHeader>
             <CardTitle className="text-2xl text-foreground">Sales by Category</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
+            <div className="w-full overflow-x-auto">
+              <div className="min-w-[560px] sm:min-w-0">
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
                 <Pie
                   data={categoryData}
                   cx="50%"
@@ -222,20 +228,24 @@ export default function SalesDashboard() {
                     name,
                   ]}
                 />
-              </PieChart>
-            </ResponsiveContainer>
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
 
       <div className="mb-8 grid gap-6 lg:grid-cols-2">
-        <Card className="border-border bg-card">
+        <Card className="border-border bg-card overflow-hidden">
           <CardHeader>
             <CardTitle className="text-2xl text-foreground">Weekly Sales Performance</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={dailySalesData}>
+            <div className="w-full overflow-x-auto">
+              <div className="min-w-[560px] sm:min-w-0">
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={dailySalesData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" />
                 <YAxis stroke="hsl(var(--muted-foreground))" />
@@ -247,18 +257,22 @@ export default function SalesDashboard() {
                   }}
                 />
                 <Bar dataKey="sales" fill="hsl(var(--color-accent-yellow))" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="border-border bg-card">
+        <Card className="border-border bg-card overflow-hidden">
           <CardHeader>
             <CardTitle className="text-2xl text-foreground">Order Volume Trend</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={salesData}>
+            <div className="w-full overflow-x-auto">
+              <div className="min-w-[560px] sm:min-w-0">
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={salesData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
                 <YAxis stroke="hsl(var(--muted-foreground))" />
@@ -276,8 +290,10 @@ export default function SalesDashboard() {
                   strokeWidth={3}
                   dot={{ fill: "hsl(var(--color-accent-purple))", r: 6 }}
                 />
-              </LineChart>
-            </ResponsiveContainer>
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -291,22 +307,32 @@ export default function SalesDashboard() {
             {topProducts.map((product, index) => (
               <div
                 key={product.name}
-                className="flex items-center justify-between rounded-lg border border-border bg-secondary p-4"
+                className="grid gap-3 rounded-lg border border-border bg-muted p-4 sm:grid-cols-[1fr_auto] sm:items-start"
               >
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--color-accent-cyan))] to-[hsl(var(--color-primary))] text-lg font-bold text-white">
+                {/* Mobile: centered rank badge on top */}
+                <div className="sm:hidden flex justify-center">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-gradient-to-br from-gray-200 to-gray-500 text-xl font-extrabold text-white shadow-lg">
+                    {index + 1}
+                  </div>
+                </div>
+
+                {/* Info block; desktop keeps badge on the left */}
+                <div className="flex items-start gap-4">
+                  <div className="hidden sm:flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-gray-200 to-gray-500 text-lg font-bold text-white shadow-sm">
                     {index + 1}
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-foreground">{product.name}</h3>
-                    <p className="text-sm text-muted-foreground">
+                    <h3 className="text-base sm:text-lg font-semibold text-foreground leading-snug">{product.name}</h3>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
                       {product.category} • {product.sold} units sold
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-xl font-bold text-foreground">{product.revenue}</p>
-                  <p className="text-sm font-medium text-[hsl(var(--color-accent-green))]">{product.trend}</p>
+
+                {/* Price/Trend */}
+                <div className="text-left sm:text-right sm:ml-6">
+                  <p className="text-base sm:text-xl font-bold text-foreground leading-tight">{product.revenue}</p>
+                  <p className="text-xs sm:text-sm font-medium text-[hsl(var(--color-accent-green))]">{product.trend}</p>
                 </div>
               </div>
             ))}

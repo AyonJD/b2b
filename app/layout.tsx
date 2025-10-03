@@ -1,7 +1,7 @@
 import type React from "react"
 import { Inter, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppShell } from "@/components/app-shell"
 
 const inter = Inter({
   variable: "--font-sans",
@@ -27,10 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable} dark`}>
       <body className="antialiased">
-        <div className="flex h-screen overflow-hidden">
-          <AppSidebar />
-          <main className="flex-1 overflow-y-auto">{children}</main>
-        </div>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   )

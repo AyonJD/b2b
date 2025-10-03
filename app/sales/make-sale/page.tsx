@@ -101,17 +101,17 @@ export default function MakeSale() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-[100svh] bg-background p-4 sm:p-6 lg:p-8">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold text-foreground">Make Sale</h1>
-        <p className="mt-2 text-lg text-muted-foreground">Add products and complete the transaction</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Make Sale</h1>
+        <p className="mt-2 text-base sm:text-lg text-muted-foreground">Add products and complete the transaction</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="space-y-6">
           <Card className="border-border bg-card">
             <CardHeader>
-              <CardTitle className="text-2xl text-foreground">Product Selection</CardTitle>
+              <CardTitle className="text-xl sm:text-2xl text-foreground">Product Selection</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2">
@@ -226,7 +226,7 @@ export default function MakeSale() {
 
         <Card className="border-border bg-card">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl text-foreground">
+            <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl text-foreground">
               <ShoppingCart className="h-6 w-6" />
               Sale Invoice
             </CardTitle>
@@ -252,16 +252,16 @@ export default function MakeSale() {
                     {cart.map((item) => (
                       <div
                         key={item.id}
-                        className="flex items-center justify-between rounded-lg border border-border bg-secondary p-4"
+                        className="grid gap-3 rounded-lg border border-border bg-secondary p-4 sm:grid-cols-[1fr_auto] sm:items-center"
                       >
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-foreground">{item.name}</h3>
-                          <p className="text-sm text-muted-foreground">
+                        <div>
+                          <h3 className="text-sm sm:text-base font-semibold text-foreground">{item.name}</h3>
+                          <p className="text-xs sm:text-sm text-muted-foreground">
                             ${item.price} × {item.quantity}
                           </p>
                         </div>
-                        <div className="flex items-center gap-4">
-                          <p className="text-lg font-bold text-foreground">${item.price * item.quantity}</p>
+                        <div className="flex items-center justify-between sm:justify-end gap-4">
+                          <p className="text-base sm:text-lg font-bold text-foreground">${item.price * item.quantity}</p>
                           <Button variant="destructive" size="icon" onClick={() => removeFromCart(item.id)}>
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -317,7 +317,7 @@ export default function MakeSale() {
       </div>
 
       <Dialog open={showInvoice} onOpenChange={setShowInvoice}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-[min(100vw-2rem,42rem)]">
           <DialogHeader>
             <DialogTitle className="text-2xl">Sale Completed Successfully!</DialogTitle>
             <DialogDescription>Invoice #{invoiceNumber}</DialogDescription>

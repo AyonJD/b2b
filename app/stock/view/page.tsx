@@ -1,12 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Package, Plus } from "lucide-react"
+import { Search, Plus } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -15,38 +13,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
 
-const stockData = {
-  Electronics: [
-    { id: 1, name: "Premium Laptop", stock: 45, minStock: 20, price: 1200 },
-    { id: 2, name: "Tablet Pro", stock: 32, minStock: 15, price: 800 },
-    { id: 3, name: "Smartphone X", stock: 67, minStock: 30, price: 999 },
-  ],
-  Accessories: [
-    { id: 4, name: "Wireless Mouse", stock: 120, minStock: 50, price: 30 },
-    { id: 5, name: "USB-C Cable", stock: 200, minStock: 100, price: 15 },
-    { id: 6, name: "Phone Case", stock: 150, minStock: 75, price: 25 },
-  ],
-  Computers: [
-    { id: 7, name: "Desktop PC", stock: 28, minStock: 15, price: 1500 },
-    { id: 8, name: "Gaming Laptop", stock: 15, minStock: 10, price: 2200 },
-  ],
-  Peripherals: [
-    { id: 9, name: "Keyboard Pro", stock: 85, minStock: 40, price: 100 },
-    { id: 10, name: 'Monitor 27"', stock: 42, minStock: 20, price: 400 },
-  ],
-  Storage: [
-    { id: 11, name: "External SSD 1TB", stock: 95, minStock: 50, price: 150 },
-    { id: 12, name: "USB Flash Drive", stock: 180, minStock: 100, price: 20 },
-  ],
-}
+const stockData = [
+  { id: 1, name: "Premium Laptop", stock: 70, minStock: 15, price: 1200 },
+  { id: 2, name: "Tablet Pro", stock: 20, minStock: 15, price: 800 },
+  { id: 3, name: "Smartphone X", stock: 8, minStock: 15, price: 999 },
+  { id: 4, name: "Desktop", stock: 5, minStock: 15, price: 1500 },
+  { id: 5, name: "Monitor", stock: 25, minStock: 15, price: 400 },
+]
 
 export default function ViewStock() {
-  const [selectedCategory, setSelectedCategory] = useState("Electronics")
+  const [searchQuery, setSearchQuery] = useState("")
+  const [showEntries, setShowEntries] = useState("10")
   const [requisitionItem, setRequisitionItem] = useState<string | null>(null)
   const [requisitionQty, setRequisitionQty] = useState(10)
-
-  const currentStock = stockData[selectedCategory as keyof typeof stockData]
 
   const handleRequisition = () => {
     alert(`Requisition submitted for ${requisitionQty} units`)
@@ -54,106 +35,186 @@ export default function ViewStock() {
     setRequisitionQty(10)
   }
 
+  const getStockPercentage = (stock: number, minStock: number) => {
+    // Calculate percentage based on how much stock we have compared to minimum required
+    // If stock is above minStock, show 100%+ 
+    // If stock is below minStock, show actual percentage
+    if (stock >= minStock) {
+      return Math.min(100, Math.round((stock / minStock) * 100))
+    } else {
+      return Math.round((stock / minStock) * 100)
+    }
+  }
+
+  const getStockBadgeColor = (stock: number, minStock: number) => {
+    if (stock >= minStock) return "bg-green-100 text-green-700"
+    if (stock >= minStock * 0.5) return "bg-yellow-100 text-yellow-700"
+    return "bg-red-100 text-red-700"
+  }
+
+  const getProgressBarColor = (stock: number, minStock: number) => {
+    if (stock >= minStock) return "bg-green-500"
+    if (stock >= minStock * 0.5) return "bg-yellow-500"
+    return "bg-red-500"
+  }
+
+  const filteredData = stockData.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-foreground">View Stock</h1>
-        <p className="mt-2 text-lg text-muted-foreground">Current inventory by product category</p>
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">View Stock</h1>
+        <p className="mt-1 text-sm text-gray-500">Current inventory by product category</p>
       </div>
 
-      <div className="mb-6">
-        <Label htmlFor="category" className="text-lg text-foreground">
-          Select Category
-        </Label>
-        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-          <SelectTrigger id="category" className="mt-2 h-12 text-lg">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.keys(stockData).map((cat) => (
-              <SelectItem key={cat} value={cat}>
-                {cat}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+      <div className="mb-6 rounded-lg bg-white p-4 sm:p-6 shadow-sm">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            {/* Search input */}
+            <div className="relative w-full sm:w-64">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <Input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+
+            {/* Show entries dropdown */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600">Show</span>
+              <Select value={showEntries} onValueChange={setShowEntries}>
+                <SelectTrigger className="w-20">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="25">25</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="100">100</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Add Stock button */}
+          <Button className="bg-blue-500 hover:bg-blue-600 w-full sm:w-auto">
+            <Plus className="mr-2 h-4 w-4" />
+            Add Stock
+          </Button>
+        </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {currentStock.map((item) => (
-          <Card key={item.id} className="border-border bg-card">
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <CardTitle className="text-xl text-foreground">{item.name}</CardTitle>
-                  <p className="mt-1 text-sm text-muted-foreground">${item.price}</p>
-                </div>
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--color-accent-cyan))] to-[hsl(var(--color-primary))]">
-                  <Package className="h-6 w-6 text-white" />
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Current Stock</span>
-                  <span className="font-semibold text-foreground">{item.stock} units</span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-secondary">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-[hsl(var(--color-accent-cyan))] to-[hsl(var(--color-primary))]"
-                    style={{ width: `${Math.min((item.stock / (item.minStock * 2)) * 100, 100)}%` }}
-                  />
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Min. Stock</span>
-                  <span className="text-muted-foreground">{item.minStock} units</span>
-                </div>
-              </div>
+      <div className="overflow-x-auto rounded-lg bg-white shadow-sm">
+        <table className="w-full min-w-[800px]">
+          <thead className="border-b border-gray-200 bg-gray-50">
+            <tr>
+              <th className="px-3 py-3 text-left text-xs sm:text-sm font-semibold text-gray-700">SL</th>
+              <th className="px-3 py-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Name</th>
+              <th className="px-3 py-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Price</th>
+              <th className="px-3 py-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Current Stock</th>
+              <th className="px-3 py-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Min. Stock</th>
+              <th className="px-3 py-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Status</th>
+              <th className="px-3 py-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Action</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {filteredData.map((item, index) => {
+              const percentage = getStockPercentage(item.stock, item.minStock)
+              const selectedItem = stockData.find((i) => i.id === item.id)
 
-              <Dialog open={requisitionItem === item.name} onOpenChange={(open) => !open && setRequisitionItem(null)}>
-                <DialogTrigger asChild>
-                  <Button className="w-full" size="lg" onClick={() => setRequisitionItem(item.name)}>
-                    <Plus className="mr-2 h-5 w-5" />
-                    Make Requisition
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle className="text-2xl">Stock Requisition</DialogTitle>
-                    <DialogDescription>Request additional stock for {item.name}</DialogDescription>
-                  </DialogHeader>
-                  <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="reqQty" className="text-foreground">
-                        Quantity to Order
-                      </Label>
-                      <Input
-                        id="reqQty"
-                        type="number"
-                        min="1"
-                        value={requisitionQty}
-                        onChange={(e) => setRequisitionQty(Number.parseInt(e.target.value) || 1)}
-                        className="mt-2"
-                      />
-                    </div>
-                    <div className="rounded-lg bg-secondary p-4">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Estimated Cost</span>
-                        <span className="text-xl font-bold text-foreground">
-                          ${(item.price * requisitionQty).toLocaleString()}
-                        </span>
+              return (
+                <tr key={item.id} className="hover:bg-gray-50">
+                  {/* Serial Number */}
+                  <td className="px-3 py-4 text-xs sm:text-sm text-gray-600">{String(index + 1).padStart(2, "0")}</td>
+
+                  {/* Product Name */}
+                  <td className="px-3 py-4 text-xs sm:text-sm font-medium text-gray-900">{item.name}</td>
+
+                  {/* Price */}
+                  <td className="px-3 py-4 text-xs sm:text-sm text-gray-600">${item.price}</td>
+
+                  {/* Current Stock with colored badge */}
+                  <td className="px-3 py-4">
+                    <span
+                      className={`inline-flex rounded-full px-2 py-1 text-xs font-medium ${getStockBadgeColor(item.stock, item.minStock)}`}
+                    >
+                      {item.stock} units
+                    </span>
+                  </td>
+
+                  {/* Min Stock */}
+                  <td className="px-3 py-4 text-xs sm:text-sm text-gray-600">{item.minStock} units</td>
+
+                  {/* Status with progress bar */}
+                  <td className="px-3 py-4">
+                    <div className="flex items-center gap-2">
+                      <div className="h-2 w-20 sm:w-32 overflow-hidden rounded-full bg-gray-200">
+                        <div
+                          className={`h-full ${getProgressBarColor(item.stock, item.minStock)}`}
+                          style={{ width: `${Math.min(percentage, 100)}%` }}
+                        />
                       </div>
+                      <span className="text-xs sm:text-sm font-medium text-gray-700">{percentage}%</span>
                     </div>
-                    <Button onClick={handleRequisition} className="w-full" size="lg">
-                      Submit Requisition
-                    </Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </CardContent>
-          </Card>
-        ))}
+                  </td>
+
+                  {/* Action button */}
+                  <td className="px-3 py-4">
+                    <Dialog
+                      open={requisitionItem === item.name}
+                      onOpenChange={(open) => !open && setRequisitionItem(null)}
+                    >
+                      <DialogTrigger asChild>
+                        <Button
+                          className="bg-green-500 hover:bg-green-600 text-xs sm:text-sm"
+                          size="sm"
+                          onClick={() => setRequisitionItem(item.name)}
+                        >
+                          Make Requisition
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-[95vw] sm:max-w-md">
+                        <DialogHeader>
+                          <DialogTitle className="text-xl sm:text-2xl">Stock Requisition</DialogTitle>
+                          <DialogDescription>Request additional stock for {item.name}</DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <div>
+                            <Label htmlFor="reqQty" className="text-foreground">
+                              Quantity to Order
+                            </Label>
+                            <Input
+                              id="reqQty"
+                              type="number"
+                              min="1"
+                              value={requisitionQty}
+                              onChange={(e) => setRequisitionQty(Number.parseInt(e.target.value) || 1)}
+                              className="mt-2"
+                            />
+                          </div>
+                          <div className="rounded-lg bg-secondary p-4">
+                            <div className="flex justify-between">
+                              <span className="text-muted-foreground">Estimated Cost</span>
+                              <span className="text-lg sm:text-xl font-bold text-foreground">
+                                ${selectedItem ? (selectedItem.price * requisitionQty).toLocaleString() : 0}
+                              </span>
+                            </div>
+                          </div>
+                          <Button onClick={handleRequisition} className="w-full" size="lg">
+                            Submit Requisition
+                          </Button>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   )

@@ -135,35 +135,37 @@ export function AppSidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
           />
         </div>
 
-        {/* Language Selector */}
-        <div className="flex items-center gap-2">
-          <div className="h-6 w-6 rounded-full bg-blue-600 flex items-center justify-center">
-            <span className="text-white text-xs font-bold">US</span>
+        {/* Language Selector and Icons - Same Row */}
+        <div className="flex items-center justify-between gap-3">
+          {/* Language Selector */}
+          <div className="flex items-center gap-2">
+            <div className="h-6 w-6 rounded-full bg-blue-600 flex items-center justify-center">
+              <span className="text-white text-xs font-bold">US</span>
+            </div>
+            <Select defaultValue="english">
+              <SelectTrigger className="w-auto border-0 shadow-none bg-transparent h-auto p-0">
+                <SelectValue>
+                  <span className="text-sm text-gray-700">English (US)</span>
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="english">English (US)</SelectItem>
+                <SelectItem value="spanish">Spanish</SelectItem>
+                <SelectItem value="french">French</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <Select defaultValue="english">
-            <SelectTrigger className="w-auto border-0 shadow-none bg-transparent h-auto p-0">
-              <SelectValue>
-                <span className="text-sm text-gray-700">English (US)</span>
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="english">English (US)</SelectItem>
-              <SelectItem value="spanish">Spanish</SelectItem>
-              <SelectItem value="french">French</SelectItem>
-            </SelectContent>
-          </Select>
-          <ChevronDown className="h-4 w-4 text-gray-400" />
-        </div>
 
-        {/* Mail and Notification Icons */}
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-white border border-gray-200 hover:bg-gray-50">
-            <Mail className="h-4 w-4 text-gray-600" />
-          </Button>
-          <Button variant="ghost" size="icon" className="h-10 w-10 rounded-full bg-white border border-gray-200 hover:bg-gray-50 relative">
-            <Bell className="h-4 w-4 text-gray-600" />
-            <div className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></div>
-          </Button>
+          {/* Mail and Notification Icons */}
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white border border-gray-200 hover:bg-gray-50">
+              <Mail className="h-4 w-4 text-gray-600" />
+            </Button>
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full bg-white border border-gray-200 hover:bg-gray-50 relative">
+              <Bell className="h-4 w-4 text-gray-600" />
+              <div className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full"></div>
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -181,7 +183,7 @@ export function AppSidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-3 rounded-[4px] px-3 py-1.5 text-sm font-medium transition-all",
+                      "flex items-center gap-3 rounded-[4px] px-3 py-2.5 text-sm font-medium transition-all",
                       isActive
                         ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 ml-2"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground",

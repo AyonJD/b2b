@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation"
 import { AppSidebar } from "./app-sidebar"
+import { AppNavbar } from "./app-navbar"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
@@ -18,8 +19,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
       )}
       <div className="flex-1 overflow-y-auto">
+        {/* Navbar - Only show when sidebar is visible */}
+        {!hideSidebar && <AppNavbar />}
+        
+        {/* Mobile Sidebar Toggle - Only show on mobile when sidebar is visible */}
         {!hideSidebar && (
-          <div className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur md:hidden">
+          <div className="sticky top-16 z-40 border-b border-border bg-background/80 backdrop-blur md:hidden">
             <div className="flex h-14 items-center px-3">
               <Sheet>
                 <SheetTrigger asChild>

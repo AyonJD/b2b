@@ -81,10 +81,9 @@ export default function MakeSale() {
   }
 
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const discountAmount = (subtotal * discount) / 100
+  const discountAmount = discount
   const subtotalAfterDiscount = subtotal - discountAmount
-  const tax = subtotalAfterDiscount * 0.1
-  const total = subtotalAfterDiscount + tax
+  const total = subtotalAfterDiscount
 
   const completeSale = () => {
     const invNum = `INV-${Date.now().toString().slice(-6)}`
@@ -101,34 +100,34 @@ export default function MakeSale() {
   }
 
   return (
-    <div className="min-h-[100svh] bg-background p-4 sm:p-6 lg:p-8">
-      <div className="mb-8">
-        <h1 className="text-3xl sm:text-4xl font-bold text-foreground">Make Sale</h1>
-        <p className="mt-2 text-base sm:text-lg text-muted-foreground">Add products and complete the transaction</p>
+    <div className="min-h-[100svh] bg-gray-100 p-4 sm:p-6 lg:p-8">
+      <div className="mb-8 ">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 text-center">Sales Dashboard</h1>
+        <p className="mt-2 text-sm sm:text-base text-gray-600 text-center">Comprehensive analytics and performance insights</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="space-y-6">
-          <Card className="border-border bg-card">
-            <CardHeader>
-              <CardTitle className="text-xl sm:text-2xl text-foreground">Product Selection</CardTitle>
+          <Card className="bg-white rounded-lg shadow-sm border-0">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-xl font-bold text-gray-800">Product Selection</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <Label htmlFor="clientName" className="text-foreground">
-                    Client Name
+                  <Label htmlFor="clientName" className="text-sm font-medium text-gray-700">
+                    Customer Name
                   </Label>
                   <Input
                     id="clientName"
                     placeholder="Enter client name"
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
-                    className="mt-2"
+                    className="mt-1 border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="clientPhone" className="text-foreground">
+                  <Label htmlFor="clientPhone" className="text-sm font-medium text-gray-700">
                     Phone Number
                   </Label>
                   <Input
@@ -136,17 +135,17 @@ export default function MakeSale() {
                     placeholder="Enter phone number"
                     value={clientPhone}
                     onChange={(e) => setClientPhone(e.target.value)}
-                    className="mt-2"
+                    className="mt-1 border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
               </div>
 
               <div>
-                <Label htmlFor="search" className="text-foreground">
+                <Label htmlFor="search" className="text-sm font-medium text-gray-700">
                   Direct Search
                 </Label>
-                <div className="relative mt-2">
-                  <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                <div className="relative mt-1">
+                  <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
                   <Input
                     id="search"
                     placeholder="Search products..."
@@ -155,13 +154,13 @@ export default function MakeSale() {
                       setSearchTerm(e.target.value)
                       setSelectedCategory("")
                     }}
-                    className="pl-10"
+                    className="pl-10 border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
               </div>
 
               <div>
-                <Label htmlFor="category" className="text-foreground">
+                <Label htmlFor="category" className="text-sm font-medium text-gray-700">
                   Product Category
                 </Label>
                 <Select
@@ -171,8 +170,8 @@ export default function MakeSale() {
                     setSearchTerm("")
                   }}
                 >
-                  <SelectTrigger id="category" className="mt-2">
-                    <SelectValue placeholder="Select category" />
+                  <SelectTrigger id="category" className="mt-1 w-full border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500">
+                    <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((cat) => (
@@ -185,12 +184,12 @@ export default function MakeSale() {
               </div>
 
               <div>
-                <Label htmlFor="product" className="text-foreground">
-                  Select Product
+                <Label htmlFor="product" className="text-sm font-medium text-gray-700">
+                  Product Item
                 </Label>
                 <Select value={selectedProduct} onValueChange={setSelectedProduct}>
-                  <SelectTrigger id="product" className="mt-2">
-                    <SelectValue placeholder="Choose product" />
+                  <SelectTrigger id="product" className="mt-1 w-full border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500">
+                    <SelectValue placeholder="Select Product" />
                   </SelectTrigger>
                   <SelectContent>
                     {filteredProducts.map((product) => (
@@ -203,7 +202,7 @@ export default function MakeSale() {
               </div>
 
               <div>
-                <Label htmlFor="quantity" className="text-foreground">
+                <Label htmlFor="quantity" className="text-sm font-medium text-gray-700">
                   Quantity
                 </Label>
                 <Input
@@ -212,101 +211,99 @@ export default function MakeSale() {
                   min="1"
                   value={quantity}
                   onChange={(e) => setQuantity(Number.parseInt(e.target.value) || 1)}
-                  className="mt-2"
+                  className="mt-1 border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
 
-              <Button onClick={addToCart} disabled={!selectedProduct} className="w-full" size="lg">
+              <Button 
+                onClick={addToCart} 
+                disabled={!selectedProduct} 
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-md"
+              >
                 <Plus className="mr-2 h-5 w-5" />
-                Add to Cart
+                + Add to Cart
               </Button>
             </CardContent>
           </Card>
         </div>
 
-        <Card className="border-border bg-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl text-foreground">
+        <Card className="bg-[#155DFC] rounded-lg shadow-sm border-0">
+          <CardHeader className="pb-0">
+            <CardTitle className="flex w-full items-center justify-center gap-2 text-xl font-bold text-white">
               <ShoppingCart className="h-6 w-6" />
               Sale Invoice
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {(clientName || clientPhone) && (
-                <div className="rounded-lg border border-border bg-secondary p-4">
-                  <h4 className="mb-2 font-semibold text-foreground">Client Information</h4>
-                  {clientName && <p className="text-sm text-foreground">Name: {clientName}</p>}
-                  {clientPhone && <p className="text-sm text-foreground">Phone: {clientPhone}</p>}
-                </div>
-              )}
-
               {cart.length === 0 ? (
                 <div className="py-12 text-center">
-                  <ShoppingCart className="mx-auto h-16 w-16 text-muted-foreground" />
-                  <p className="mt-4 text-lg text-muted-foreground">No items in cart</p>
+                  <ShoppingCart className="mx-auto h-16 w-16 text-white/60" />
+                  <p className="mt-4 text-lg text-white/80">No items in cart</p>
                 </div>
               ) : (
                 <>
-                  <div className="space-y-3">
+                  <div className="space-y-2 bg-white rounded-md max-h-64 overflow-y-auto pr-2">
                     {cart.map((item) => (
                       <div
                         key={item.id}
-                        className="grid gap-3 rounded-lg border border-border bg-secondary p-4 sm:grid-cols-[1fr_auto] sm:items-center"
+                        className="flex items-center justify-between border-b border-gray-200 p-3"
                       >
-                        <div>
-                          <h3 className="text-sm sm:text-base font-semibold text-foreground">{item.name}</h3>
-                          <p className="text-xs sm:text-sm text-muted-foreground">
-                            ${item.price} × {item.quantity}
-                          </p>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-800">{item.name}</p>
+                          <p className="text-xs text-gray-500">(${item.price} x {item.quantity})</p>
                         </div>
-                        <div className="flex items-center justify-between sm:justify-end gap-4">
-                          <p className="text-base sm:text-lg font-bold text-foreground">${item.price * item.quantity}</p>
-                          <Button variant="destructive" size="icon" onClick={() => removeFromCart(item.id)}>
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm font-bold text-gray-800">${item.price * item.quantity}</span>
+                          <button 
+                            onClick={() => removeFromCart(item.id)}
+                            className="bg-orange-500 hover:bg-orange-600 text-white p-1 rounded"
+                          >
                             <Trash2 className="h-4 w-4" />
-                          </Button>
+                          </button>
                         </div>
                       </div>
                     ))}
                   </div>
 
-                  <div className="rounded-lg border border-border bg-secondary p-4">
-                    <Label htmlFor="discount" className="text-foreground">
-                      Discount (%)
-                    </Label>
-                    <Input
-                      id="discount"
-                      type="number"
-                      min="0"
-                      max="100"
-                      value={discount}
-                      onChange={(e) => setDiscount(Number.parseInt(e.target.value) || 0)}
-                      className="mt-2"
-                    />
+                  <div className="bg-white rounded-md p-3">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="discount" className="text-sm font-medium text-gray-700">
+                        Discount
+                      </Label>
+                      <Input
+                        id="discount"
+                        type="number"
+                        min="0"
+                        value={discount}
+                        onChange={(e) => setDiscount(Number.parseFloat(e.target.value) || 0)}
+                        className="w-20 border-gray-300 rounded-md focus:border-blue-500 focus:ring-blue-500 text-right"
+                        placeholder="0"
+                      />
+                    </div>
                   </div>
 
-                  <div className="space-y-2 border-t border-border pt-4">
-                    <div className="flex justify-between text-muted-foreground">
-                      <span>Subtotal</span>
-                      <span>${subtotal.toFixed(2)}</span>
+                  <div className="space-y-2  rounded-md p-4">
+                    <div className="flex justify-between text-gray-800">
+                      <span className="text-white">Subtotal</span>
+                      <span className="text-white">${subtotal.toFixed(2)}</span>
                     </div>
                     {discount > 0 && (
-                      <div className="flex justify-between text-[hsl(var(--color-accent-green))]">
-                        <span>Discount ({discount}%)</span>
-                        <span>-${discountAmount.toFixed(2)}</span>
+                      <div className="flex justify-between text-gray-800">
+                        <span className="text-yellow-500">Discount</span>
+                        <span className="text-yellow-500">-${discountAmount.toFixed(2)}</span>
                       </div>
                     )}
-                    <div className="flex justify-between text-muted-foreground">
-                      <span>Tax (10%)</span>
-                      <span>${tax.toFixed(2)}</span>
-                    </div>
-                    <div className="flex justify-between border-t border-border pt-2 text-xl font-bold text-foreground">
-                      <span>Total</span>
-                      <span>${total.toFixed(2)}</span>
+                    <div className="flex justify-between border-t border-gray-200 pt-2 text-lg font-bold text-gray-800">
+                      <span className="text-white">Total</span>
+                      <span className="text-white">${total.toFixed(2)}</span>
                     </div>
                   </div>
 
-                  <Button onClick={completeSale} className="w-full" size="lg">
+                  <Button 
+                    onClick={completeSale} 
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-black font-bold py-3 rounded-md"
+                  >
                     Complete Sale
                   </Button>
                 </>
@@ -360,14 +357,10 @@ export default function MakeSale() {
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-[hsl(var(--color-accent-green))]">
-                    <span>Discount ({discount}%)</span>
+                    <span>Discount</span>
                     <span>-${discountAmount.toFixed(2)}</span>
                   </div>
                 )}
-                <div className="flex justify-between text-muted-foreground">
-                  <span>Tax (10%)</span>
-                  <span>${tax.toFixed(2)}</span>
-                </div>
                 <div className="flex justify-between border-t border-border pt-2 text-xl font-bold text-foreground">
                   <span>Total</span>
                   <span>${total.toFixed(2)}</span>

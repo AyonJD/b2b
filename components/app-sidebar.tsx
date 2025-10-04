@@ -80,8 +80,8 @@ export function AppSidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
     <div className="flex h-screen w-64 flex-col border-r border-border bg-card">
       <div className="flex h-16 items-center border-b border-border px-6">
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <div className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-[hsl(var(--color-accent-purple))] to-[hsl(var(--color-accent-purple))]">
+          <div className="hidden md:flex items-center gap-2">
+            <div className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-gray-500 to-gray-700">
               <span className="text-white font-bold text-sm">#</span>
             </div>
             <span className="text-sm font-semibold text-foreground">Snack</span>

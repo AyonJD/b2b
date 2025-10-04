@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search, Plus } from "lucide-react"
+import { Search, Plus, X } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -16,11 +16,11 @@ import {
 import { Label } from "@/components/ui/label"
 
 const stockData = [
-  { id: 1, name: "Premium Laptop", stock: 70, minStock: 15, price: 1200 },
-  { id: 2, name: "Tablet Pro", stock: 20, minStock: 15, price: 800 },
-  { id: 3, name: "Smartphone X", stock: 8, minStock: 15, price: 999 },
-  { id: 4, name: "Desktop", stock: 5, minStock: 15, price: 1500 },
-  { id: 5, name: "Monitor", stock: 25, minStock: 15, price: 400 },
+  { id: 1, name: "USB C Cable", category: "Electronics", stock: 70, minStock: 15, price: 10000 },
+  { id: 2, name: "Tablet Pro", category: "Electronics", stock: 20, minStock: 15, price: 800 },
+  { id: 3, name: "Smartphone X", category: "Electronics", stock: 8, minStock: 15, price: 999 },
+  { id: 4, name: "Desktop", category: "Electronics", stock: 5, minStock: 15, price: 1500 },
+  { id: 5, name: "Monitor", category: "Electronics", stock: 25, minStock: 15, price: 400 },
 ]
 
 export default function ViewStock() {
@@ -176,15 +176,35 @@ export default function ViewStock() {
                           Make Requisition
                         </Button>
                       </DialogTrigger>
-                      <DialogContent className="max-w-[95vw] sm:max-w-md">
-                        <DialogHeader>
-                          <DialogTitle className="text-xl sm:text-2xl">Stock Requisition</DialogTitle>
-                          <DialogDescription>Request additional stock for {item.name}</DialogDescription>
+                      <DialogContent className="max-w-[95vw] sm:max-w-lg md:max-w-xl lg:max-w-2xl">
+                        <DialogHeader className="flex flex-row items-center justify-between">
+                          <DialogTitle className="text-xl font-bold text-gray-800">Stock Requisition</DialogTitle>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setRequisitionItem(null)}
+                            className="h-8 w-8 p-0"
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
                         </DialogHeader>
-                        <div className="space-y-4">
+                        <div className="space-y-4 sm:space-y-6">
+                          {/* Product Information */}
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0">
+                            <div>
+                              <span className="text-sm text-gray-600">Product Category :</span>
+                              <span className="ml-2 text-sm font-medium text-gray-800">Electronics</span>
+                            </div>
+                            <div>
+                              <span className="text-sm text-gray-600">Product Item:</span>
+                              <span className="ml-2 text-sm font-medium text-gray-800">{item.name}</span>
+                            </div>
+                          </div>
+
+                          {/* Quantity To Order */}
                           <div>
-                            <Label htmlFor="reqQty" className="text-foreground">
-                              Quantity to Order
+                            <Label htmlFor="reqQty" className="text-sm font-bold text-gray-800">
+                              Quantity To Order :
                             </Label>
                             <Input
                               id="reqQty"
@@ -193,19 +213,40 @@ export default function ViewStock() {
                               value={requisitionQty}
                               onChange={(e) => setRequisitionQty(Number.parseInt(e.target.value) || 1)}
                               className="mt-2"
+                              placeholder="Enter Amount"
                             />
                           </div>
-                          <div className="rounded-lg bg-secondary p-4">
-                            <div className="flex justify-between">
-                              <span className="text-muted-foreground">Estimated Cost</span>
-                              <span className="text-lg sm:text-xl font-bold text-foreground">
-                                ${selectedItem ? (selectedItem.price * requisitionQty).toLocaleString() : 0}
-                              </span>
-                            </div>
+
+                          {/* Cost of Stock */}
+                          <div>
+                            <Label htmlFor="cost" className="text-sm font-bold text-gray-800">
+                              Cost of Stock
+                            </Label>
+                            <Input
+                              id="cost"
+                              type="text"
+                              value={`$${selectedItem ? (selectedItem.price * requisitionQty).toLocaleString() : 0}`}
+                              readOnly
+                              className="mt-2 font-bold text-gray-800"
+                            />
                           </div>
-                          <Button onClick={handleRequisition} className="w-full" size="lg">
-                            Submit Requisition
-                          </Button>
+
+                          {/* Action Buttons */}
+                          <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
+                            <Button
+                              variant="outline"
+                              onClick={() => setRequisitionItem(null)}
+                              className="border-orange-500 text-orange-500 hover:bg-orange-50 w-full sm:w-auto"
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              onClick={handleRequisition}
+                              className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
+                            >
+                              Submit Requisition
+                            </Button>
+                          </div>
                         </div>
                       </DialogContent>
                     </Dialog>

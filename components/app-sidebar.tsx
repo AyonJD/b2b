@@ -79,13 +79,18 @@ export function AppSidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
   return (
     <div className="flex h-screen w-64 flex-col border-r border-border bg-card">
       <div className="flex h-16 items-center border-b border-border px-6">
-        <div className="flex items-center gap-2">
-          <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-primary to-[hsl(var(--color-accent-purple))]">
-            <img src="/placeholder-logo.svg" alt="Logo" className="h-5 w-5" />
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-[hsl(var(--color-accent-purple))] to-[hsl(var(--color-accent-purple))]">
+              <span className="text-white font-bold text-sm">#</span>
+            </div>
+            <span className="text-sm font-semibold text-foreground">Snack</span>
           </div>
-          <div>
-            <h1 className="text-lg font-bold text-foreground">BizManager</h1>
-            <p className="text-xs text-muted-foreground">Pro Edition</p>
+          <div className="flex items-center gap-2">
+            <div className="grid h-8 w-8 place-items-center rounded-full bg-blue-600">
+              <span className="text-white font-bold text-sm">B</span>
+            </div>
+            <span className="text-sm font-semibold text-foreground">BizManager</span>
           </div>
         </div>
       </div>
@@ -104,9 +109,9 @@ export function AppSidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all",
+                      "flex items-center gap-3 rounded-[4px] px-3 py-1.5 text-sm font-medium transition-all",
                       isActive
-                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 ml-2"
                         : "text-muted-foreground hover:bg-secondary hover:text-foreground",
                     )}
                     onClick={() => {

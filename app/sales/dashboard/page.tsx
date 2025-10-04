@@ -1,13 +1,9 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { StatCard } from "@/components/stat-card"
-import { DollarSign, ShoppingCart, TrendingUp, Users, Package, CreditCard } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { TrendingUp, DollarSign, Users, Package, CreditCard } from "lucide-react"
 import {
-  Bar,
-  BarChart,
-  Line,
-  LineChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
@@ -21,171 +17,253 @@ import {
 } from "recharts"
 
 const salesData = [
-  { month: "Jan", sales: 45000, revenue: 52000, orders: 245 },
-  { month: "Feb", sales: 52000, revenue: 61000, orders: 289 },
-  { month: "Mar", sales: 48000, revenue: 55000, orders: 312 },
-  { month: "Apr", sales: 61000, revenue: 72000, orders: 356 },
-  { month: "May", sales: 55000, revenue: 65000, orders: 298 },
-  { month: "Jun", sales: 67000, revenue: 78000, orders: 412 },
+  { month: "Jan", income: 20000, expense: 10000 },
+  { month: "Feb", income: 35000, expense: 25000 },
+  { month: "Mar", income: 90000, expense: 80000 },
+  { month: "Apr", income: 75000, expense: 65000 },
+  { month: "May", income: 50000, expense: 20000 },
+  { month: "Jun", income: 65000, expense: 45000 },
+  { month: "Jul", income: 80000, expense: 50000 },
+  { month: "Aug", income: 85000, expense: 30000 },
 ]
 
 const categoryData = [
-  { name: "Electronics", value: 35, sales: 294000 },
-  { name: "Computers", value: 28, sales: 245000 },
-  { name: "Accessories", value: 18, sales: 156000 },
-  { name: "Peripherals", value: 12, sales: 98000 },
-  { name: "Storage", value: 7, sales: 67000 },
+  { name: "Electronics", value: 35 },
+  { name: "Computers", value: 25 },
+  { name: "Accessories", value: 20 },
+  { name: "Peripherals", value: 12 },
+  { name: "Storage", value: 8 },
 ]
 
-const COLORS = [
-  "hsl(var(--color-accent-cyan))",
-  "hsl(var(--color-accent-yellow))",
-  "hsl(var(--color-accent-orange))",
-  "hsl(var(--color-accent-purple))",
-  "hsl(var(--color-accent-pink))",
-]
+const COLORS = ["#3B82F6", "#8B5CF6", "#F97316", "#10B981", "#EF4444"]
 
-const dailySalesData = [
-  { day: "Mon", sales: 8500 },
-  { day: "Tue", sales: 9200 },
-  { day: "Wed", sales: 11000 },
-  { day: "Thu", sales: 10500 },
-  { day: "Fri", sales: 13000 },
-  { day: "Sat", sales: 15000 },
-  { day: "Sun", sales: 12800 },
-]
-
-const topProducts = [
-  { name: "Premium Laptop", sold: 245, revenue: "$294,000", trend: "+12%", category: "Electronics" },
-  { name: "Gaming Laptop", sold: 189, revenue: "$415,800", trend: "+24%", category: "Computers" },
-  { name: "Desktop PC", sold: 156, revenue: "$234,000", trend: "+18%", category: "Computers" },
-  { name: "Wireless Mouse", sold: 892, revenue: "$26,760", trend: "+8%", category: "Accessories" },
-  { name: 'Monitor 27"', sold: 189, revenue: "$75,600", trend: "+18%", category: "Peripherals" },
+const bestSellerProducts = [
+  { name: "Lenovo 3rd Generation", price: "$4420", sales: "6547", icon: "💻" },
+  { name: "Bold V3.2", price: "$1474", sales: "3474", icon: "👟" },
+  { name: "Nike Jordan", price: "$8784", sales: "1478", icon: "🎧" },
+  { name: "Apple Series 5 Watch", price: "$3240", sales: "987", icon: "⌚" },
+  { name: "Amazon Echo Dot", price: "$597", sales: "784", icon: "🔊" },
 ]
 
 export default function SalesDashboard() {
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-foreground">Sales Dashboard</h1>
-        <p className="mt-2 text-lg text-muted-foreground">Comprehensive analytics and performance insights</p>
+    <div className="min-h-screen bg-gray-50 p-4 md:p-6 lg:p-8">
+      {/* Header */}
+      <div className="mb-6 md:mb-8">
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-xl font-bold text-gray-900 sm:text-2xl md:text-3xl">Sales Dashboard</h1>
+            <p className="mt-1 text-xs text-gray-600 sm:text-sm">Comprehensive analytics and performance insights</p>
+          </div>
+          <div className="flex items-center gap-2 text-xs text-gray-500 sm:text-sm">
+            <div className="h-3 w-3 rounded bg-gray-400"></div>
+            <span className="hidden sm:inline">Sales Dashboard - B2B Module Stock</span>
+            <span className="sm:hidden">B2B Module</span>
+          </div>
+        </div>
       </div>
 
-      <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          title="Total Revenue"
-          value="$463,000"
-          change="+12.5% from last month"
-          changeType="positive"
-          icon={DollarSign}
-          iconColor="bg-gradient-to-br from-[hsl(var(--color-accent-cyan))] to-[hsl(var(--color-primary))]"
-        />
-        <StatCard
-          title="Total Sales"
-          value="3,022"
-          change="+8.2% from last month"
-          changeType="positive"
-          icon={ShoppingCart}
-          iconColor="bg-gradient-to-br from-[hsl(var(--color-accent-yellow))] to-[hsl(var(--color-accent-orange))]"
-        />
-        <StatCard
-          title="Avg. Order Value"
-          value="$153"
-          change="+3.1% from last month"
-          changeType="positive"
-          icon={TrendingUp}
-          iconColor="bg-gradient-to-br from-[hsl(var(--color-accent-purple))] to-[hsl(var(--color-accent-pink))]"
-        />
-        <StatCard
-          title="Active Customers"
-          value="1,284"
-          change="+18.7% from last month"
-          changeType="positive"
-          icon={Users}
-          iconColor="bg-gradient-to-br from-[hsl(var(--color-accent-green))] to-[hsl(var(--color-accent-cyan))]"
-        />
-      </div>
-
-      <div className="mb-8 grid gap-6 md:grid-cols-3">
-        <Card className="border-border bg-card">
-          <CardContent className="p-6">
+       {/* Stats Cards Grid - Responsive layout */}
+       <div className="mb-8 grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        {/* First Row - 3 KPI cards + Total Revenue */}
+        {/* Total Sales */}
+        <Card className="border-0 bg-orange-50 shadow-sm">
+          <CardContent className="p-3 sm:p-4">
             <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Conversion Rate</p>
-                <h3 className="mt-2 text-3xl font-bold text-foreground">24.8%</h3>
-                <p className="mt-1 text-sm text-[hsl(var(--color-accent-green))]">+2.4% from last month</p>
+              <div className="flex-1">
+                <p className="text-xs sm:text-sm font-medium text-gray-700">Total Sales</p>
+                <h3 className="mt-1 text-lg sm:text-2xl font-bold text-gray-800">3,022</h3>
+                <p className="mt-1 text-xs text-orange-500">+8.2% From last month</p>
               </div>
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--color-accent-green))] to-[hsl(var(--color-accent-cyan))]">
-                <TrendingUp className="h-7 w-7 text-white" />
+              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-orange-500 flex-shrink-0 ml-2">
+                <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-border bg-card">
-          <CardContent className="p-6">
+        {/* Avg. Order Value */}
+        <Card className="border-0 bg-pink-50 shadow-sm">
+          <CardContent className="p-3 sm:p-4">
             <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Products Sold</p>
-                <h3 className="mt-2 text-3xl font-bold text-foreground">8,456</h3>
-                <p className="mt-1 text-sm text-[hsl(var(--color-accent-green))]">+15.3% from last month</p>
+              <div className="flex-1">
+                <p className="text-xs sm:text-sm font-medium text-gray-700">Avg. Order Value</p>
+                <h3 className="mt-1 text-lg sm:text-2xl font-bold text-gray-800">$153</h3>
+                <p className="mt-1 text-xs text-purple-500">+3.1% From last month</p>
               </div>
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--color-accent-orange))] to-[hsl(var(--color-accent-red))]">
-                <Package className="h-7 w-7 text-white" />
+              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-purple-500 flex-shrink-0 ml-2">
+                <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-border bg-card">
-          <CardContent className="p-6">
+        {/* Active Customers */}
+        <Card className="border-0 bg-blue-50 shadow-sm">
+          <CardContent className="p-3 sm:p-4">
             <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Payment Success</p>
-                <h3 className="mt-2 text-3xl font-bold text-foreground">98.2%</h3>
-                <p className="mt-1 text-sm text-[hsl(var(--color-accent-green))]">+0.8% from last month</p>
+              <div className="flex-1">
+                <p className="text-xs sm:text-sm font-medium text-gray-700">Active Customers</p>
+                <h3 className="mt-1 text-lg sm:text-2xl font-bold text-gray-800">1,284</h3>
+                <p className="mt-1 text-xs text-blue-500">+18.7% From last month</p>
               </div>
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-[hsl(var(--color-accent-purple))] to-[hsl(var(--color-accent-pink))]">
-                <CreditCard className="h-7 w-7 text-white" />
+              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-blue-500 flex-shrink-0 ml-2">
+                <Users className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+              </div>
+      </div>
+          </CardContent>
+        </Card>
+
+        {/* Total Revenue Card - Responsive positioning */}
+        <Card className="border-0 bg-white shadow-sm sm:row-span-2">
+          <CardContent className="p-4 sm:p-6 text-center h-full flex flex-col justify-center">
+            <p className="text-xs sm:text-sm font-medium text-gray-700">Total Revenue</p>
+            <p className="text-xs text-gray-500 mb-2">From last month</p>
+            <h3 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2">$463,000</h3>
+            <p className="text-xs sm:text-sm text-green-500">+12.5%</p>
+          </CardContent>
+        </Card>
+
+        {/* Conversion Rate */}
+        <Card className="border-0 bg-purple-50 shadow-sm">
+          <CardContent className="p-3 sm:p-4">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-xs sm:text-sm font-medium text-gray-700">Conversion Rate</p>
+                <h3 className="mt-1 text-lg sm:text-2xl font-bold text-gray-800">24.8%</h3>
+                <p className="mt-1 text-xs text-green-500">+2.4% From last month</p>
+              </div>
+              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-purple-500 flex-shrink-0 ml-2">
+                <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Products Sold */}
+        <Card className="border-0 bg-cyan-50 shadow-sm">
+          <CardContent className="p-3 sm:p-4">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-xs sm:text-sm font-medium text-gray-700">Products Sold</p>
+                <h3 className="mt-1 text-lg sm:text-2xl font-bold text-gray-800">8,456</h3>
+                <p className="mt-1 text-xs text-green-500">+15.3% From last month</p>
+              </div>
+              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-cyan-500 flex-shrink-0 ml-2">
+                <Package className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Payment Success */}
+        <Card className="border-0 bg-green-50 shadow-sm">
+          <CardContent className="p-3 sm:p-4">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-xs sm:text-sm font-medium text-gray-700">Payment Success</p>
+                <h3 className="mt-1 text-lg sm:text-2xl font-bold text-gray-800">98.2%</h3>
+                <p className="mt-1 text-xs text-green-500">Increase by +200 this week</p>
+              </div>
+              <div className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-green-500 flex-shrink-0 ml-2">
+                <CreditCard className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <div className="mb-8 grid gap-6 lg:grid-cols-2">
-        <Card className="border-border bg-card overflow-hidden">
-          <CardHeader>
-            <CardTitle className="text-2xl text-foreground">Monthly Sales Trend</CardTitle>
+      {/* Main Content Grid - Responsive layout */}
+      <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-3">
+        {/* Monthly Sales Trend */}
+        <Card className="border-0 bg-white shadow-sm">
+          <CardHeader className="pb-3 sm:pb-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <CardTitle className="text-base sm:text-lg font-bold text-gray-800">Monthly Sales Trend</CardTitle>
+              <Select defaultValue="yearly">
+                <SelectTrigger className="w-20 sm:w-24 h-7 sm:h-8 text-xs sm:text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="yearly">Yearly</SelectItem>
+                  <SelectItem value="monthly">Monthly</SelectItem>
+                  <SelectItem value="daily">Daily</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-xs sm:text-sm text-gray-600">Income</span>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800">$26,201</span>
+              <span className="text-xs sm:text-sm text-green-500">10%-</span>
+              <div className="h-2 w-2 sm:h-3 sm:w-3 bg-green-500 rounded-sm"></div>
+            </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-3 sm:p-6">
             <div className="w-full overflow-x-auto pb-2" style={{ scrollbarGutter: "stable both-edges" }}>
-              <div className="min-w-[560px] sm:min-w-0">
-                <ResponsiveContainer width="100%" height={300}>
+              <div className="min-w-[400px] sm:min-w-0">
+                <ResponsiveContainer width="100%" height={250}>
                   <AreaChart data={salesData}>
                 <defs>
-                  <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--color-accent-cyan))" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="hsl(var(--color-accent-cyan))" stopOpacity={0} />
+                      <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#F97316" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="#F97316" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
-                <YAxis stroke="hsl(var(--muted-foreground))" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                    <XAxis 
+                      dataKey="month" 
+                      stroke="#6B7280" 
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis 
+                      stroke="#6B7280" 
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(value) => {
+                        if (value === 0) return '$0'
+                        if (value === 10000) return '$10k'
+                        if (value === 25000) return '$25k'
+                        if (value === 50000) return '$50k'
+                        if (value === 100000) return '$100k'
+                        return ''
+                      }}
+                      domain={[0, 100000]}
+                      ticks={[0, 10000, 25000, 50000, 100000]}
+                    />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
+                        backgroundColor: "#FFFFFF",
+                        border: "1px solid #E5E7EB",
                     borderRadius: "8px",
-                  }}
+                        fontSize: "12px",
+                      }}
+                      formatter={(value: number, name: string) => [
+                        `$${value.toLocaleString()}`,
+                        name === 'income' ? 'Income' : 'Expense'
+                      ]}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="income"
+                      stroke="#3B82F6"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorIncome)"
                 />
                 <Area
                   type="monotone"
-                  dataKey="sales"
-                  stroke="hsl(var(--color-accent-cyan))"
-                  strokeWidth={3}
+                      dataKey="expense"
+                      stroke="#F97316"
+                      strokeWidth={2}
                   fillOpacity={1}
-                  fill="url(#colorSales)"
+                      fill="url(#colorExpense)"
                 />
                   </AreaChart>
                 </ResponsiveContainer>
@@ -194,22 +272,62 @@ export default function SalesDashboard() {
           </CardContent>
         </Card>
 
-        <Card className="border-border bg-card overflow-hidden">
-          <CardHeader>
-            <CardTitle className="text-2xl text-foreground">Sales by Category</CardTitle>
+         {/* Best Seller */}
+         <Card className="border-0 bg-white shadow-sm">
+           <CardHeader className="pb-3 sm:pb-4">
+             <div className="flex items-center justify-between">
+               <CardTitle className="text-base sm:text-lg font-bold text-gray-800">Best Seller</CardTitle>
+               <span className="text-xs sm:text-sm text-blue-500 cursor-pointer">View All</span>
+             </div>
+           </CardHeader>
+           <CardContent className="p-3 sm:p-6">
+             <div className="space-y-2 sm:space-y-3">
+               {bestSellerProducts.map((product) => (
+                 <div key={product.name} className="flex items-center justify-between py-1 sm:py-2">
+                   <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+                     <div className="text-sm sm:text-lg flex-shrink-0">{product.icon}</div>
+                     <div className="min-w-0 flex-1">
+                       <p className="text-xs sm:text-sm font-medium text-gray-800 truncate">{product.name}</p>
+                     </div>
+                   </div>
+                   <div className="text-right flex-shrink-0 ml-2">
+                     <p className="text-xs sm:text-sm font-bold text-gray-800">{product.price}</p>
+                     <p className="text-xs text-gray-500">Sales {product.sales}</p>
+                   </div>
+                 </div>
+               ))}
+             </div>
+           </CardContent>
+         </Card>
+
+        {/* Sales by Category */}
+        <Card className="border-0 bg-white shadow-sm">
+          <CardHeader className="pb-3 sm:pb-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <CardTitle className="text-base sm:text-lg font-bold text-gray-800">Sales by Category</CardTitle>
+              <Select defaultValue="yearly">
+                <SelectTrigger className="w-20 sm:w-24 h-7 sm:h-8 text-xs sm:text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="yearly">Yearly</SelectItem>
+                  <SelectItem value="monthly">Monthly</SelectItem>
+                  <SelectItem value="daily">Daily</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="w-full overflow-x-auto pb-2" style={{ scrollbarGutter: "stable both-edges" }}>
-              <div className="min-w-[560px] sm:min-w-0">
-                <ResponsiveContainer width="100%" height={300}>
+          <CardContent className="p-3 sm:p-6">
+            <div className="flex flex-col items-center gap-4 sm:gap-6">
+              <div className="w-full">
+                <ResponsiveContainer width="100%" height={180}>
                   <PieChart>
                 <Pie
                   data={categoryData}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, value }) => `${name}: ${value}%`}
-                  outerRadius={100}
+                      outerRadius={70}
                   fill="#8884d8"
                   dataKey="value"
                 >
@@ -219,126 +337,33 @@ export default function SalesDashboard() {
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
+                        backgroundColor: "#FFFFFF",
+                        border: "1px solid #E5E7EB",
                     borderRadius: "8px",
+                        fontSize: "12px",
                   }}
-                  formatter={(value: number, name: string, props: any) => [
-                    `${value}% ($${props.payload.sales.toLocaleString()})`,
-                    name,
-                  ]}
                 />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
+              <div className="w-full">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {categoryData.map((entry, index) => (
+                    <div key={entry.name} className="flex items-center gap-2">
+                      <div 
+                        className="w-3 h-3 rounded-sm flex-shrink-0" 
+                        style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                      ></div>
+                      <span className="text-xs sm:text-sm text-gray-700">{entry.name}</span>
             </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="mb-8 grid gap-6 lg:grid-cols-2">
-        <Card className="border-border bg-card overflow-hidden">
-          <CardHeader>
-            <CardTitle className="text-2xl text-foreground">Weekly Sales Performance</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="w-full overflow-x-auto pb-2" style={{ scrollbarGutter: "stable both-edges" }}>
-              <div className="min-w-[560px] sm:min-w-0">
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={dailySalesData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" />
-                <YAxis stroke="hsl(var(--muted-foreground))" />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    borderRadius: "8px",
-                  }}
-                />
-                <Bar dataKey="sales" fill="hsl(var(--color-accent-yellow))" radius={[8, 8, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+                  ))}
             </div>
-          </CardContent>
-        </Card>
-
-        <Card className="border-border bg-card overflow-hidden">
-          <CardHeader>
-            <CardTitle className="text-2xl text-foreground">Order Volume Trend</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="w-full overflow-x-auto pb-2" style={{ scrollbarGutter: "stable both-edges" }}>
-              <div className="min-w-[560px] sm:min-w-0">
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={salesData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
-                <YAxis stroke="hsl(var(--muted-foreground))" />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    borderRadius: "8px",
-                  }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="orders"
-                  stroke="hsl(var(--color-accent-purple))"
-                  strokeWidth={3}
-                  dot={{ fill: "hsl(var(--color-accent-purple))", r: 6 }}
-                />
-                  </LineChart>
-                </ResponsiveContainer>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
-
-      <Card className="border-border bg-card">
-        <CardHeader>
-          <CardTitle className="text-2xl text-foreground">Top Selling Products</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {topProducts.map((product, index) => (
-              <div
-                key={product.name}
-                className="grid gap-3 rounded-lg border border-border bg-muted p-4 sm:grid-cols-[1fr_auto] sm:items-start"
-              >
-                {/* Mobile: centered rank badge on top */}
-                <div className="sm:hidden flex justify-center">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-gradient-to-br from-gray-200 to-gray-500 text-xl font-extrabold text-white shadow-lg">
-                    {index + 1}
-                  </div>
-                </div>
-
-                {/* Info block; desktop keeps badge on the left */}
-                <div className="flex items-start gap-4">
-                  <div className="hidden sm:flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-gray-200 to-gray-500 text-lg font-bold text-white shadow-sm">
-                    {index + 1}
-                  </div>
-                  <div>
-                    <h3 className="text-base sm:text-lg font-semibold text-foreground leading-snug">{product.name}</h3>
-                    <p className="text-xs sm:text-sm text-muted-foreground">
-                      {product.category} • {product.sold} units sold
-                    </p>
-                  </div>
-                </div>
-
-                {/* Price/Trend */}
-                <div className="text-left sm:text-right sm:ml-6">
-                  <p className="text-base sm:text-xl font-bold text-foreground leading-tight">{product.revenue}</p>
-                  <p className="text-xs sm:text-sm font-medium text-[hsl(var(--color-accent-green))]">{product.trend}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }
+

@@ -95,7 +95,7 @@ export function AppSidebar({ onNavigate }: { onNavigate?: () => void } = {}) {
         </div>
       </div>
 
-      <nav className="flex-1 space-y-6 overflow-y-auto p-4">
+      <nav className="flex-1 space-y-6 overflow-y-auto scrollbar-hide p-4">
         {navigation.map((section) => (
           <div key={section.title}>
             <h2 className="mb-2 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
